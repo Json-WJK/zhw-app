@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 
 import 'mint-ui/lib/style.css'
-
 Vue.config.productionTip = false
 //5: 设置请求的根路径 
 //Vue.http.options.root = "http://127.0.0.1/vue_ser/";
@@ -15,6 +14,7 @@ import './lib/mui/css/mui.css'
 // 还需要加载图标字体文件
 import './lib/mui/css/icons-extra.css'
 
+ 
 
 //-引入指定组件
 import {Swipe,SwipeItem} from "mint-ui";//-注册当前项目中 <mt-header> 
@@ -26,8 +26,11 @@ import VueResource from "vue-resource";
 //-将所有组件注册
 Vue.use(VueResource);
 
-Vue.http.options.root = "http://localhost:1997/"
 
+
+Vue.http.options.root = "http://127.0.0.1:1997/"
+Vue.http.options.emulateHTTP=true;
+Vue.http.options.emulateJSON=true;
 new Vue({
   router,
   render: h => h(App)

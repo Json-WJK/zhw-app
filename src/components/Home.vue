@@ -30,5 +30,7 @@
     .home>p{
         width:100%;
         text-align:center;
+        margin:.5rem 0;
+        margin-bottom:3.2rem;
     }
 </style>

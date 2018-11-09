@@ -19,6 +19,7 @@
 <style>
     .free{
         background:#fff;
+        margin-top:1rem;
     }
     .free-header{
         width:95%;

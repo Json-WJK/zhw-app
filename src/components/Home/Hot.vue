@@ -3,10 +3,12 @@
         <div class="hot-header">
             <img src="http://localhost:1997/app/icon_hot.png" alt="">
             <span>热门游戏</span>
-            <a href="">全部游戏</a>
+            <a href="" @click.prevent="all()">全部游戏</a>
         </div>
         <ul class="hot-game">
-            <li v-for="img in imgs" :key="img.id"><img :src="img[0]" alt=""><span>{{img[1]}}</span></li>
+            <li v-for="(ify,i) in classify" :key="i" @click="ifys(i)">
+                <img :src="ify.classify_app" alt=""><span>{{ify.game_names}}</span>
+            </li>
         </ul>
     </div>
 </template>
@@ -14,28 +16,28 @@
     export default {    
      data(){
        return {
-           classfiy:[],
-           imgs:[
-               ["http://localhost:1997/app/58eb65cc7987b.jpg","绝地求生"],
-               ["http://localhost:1997/app/58eb65cc7987b.jpg","绝地求生"],
-               ["http://localhost:1997/app/58eb65cc7987b.jpg","绝地求生"],
-               ["http://localhost:1997/app/58eb65cc7987b.jpg","绝地求生"],
-               ["http://localhost:1997/app/58eb65cc7987b.jpg","绝地求生"],
-               ["http://localhost:1997/app/58eb65cc7987b.jpg","绝地求生"],
-               ["http://localhost:1997/app/58eb65cc7987b.jpg","绝地求生"],
-               ["http://localhost:1997/app/58eb65cc7987b.jpg","绝地求生"],
-               ["http://localhost:1997/app/58eb65cc7987b.jpg","绝地求生"],
-               ["http://localhost:1997/app/58eb65cc7987b.jpg","绝地求生"],
-               ["http://localhost:1997/app/58eb65cc7987b.jpg","绝地求生"],
-               ["http://localhost:1997/app/58eb65cc7987b.jpg","绝地求生"],
-           ]
+           classify:[],
+           pno:1
            }
      },
     methods:{
         getify(){
-            var url="search/classifylist"
-            this.$http.get().then(result=>{
+            var url="search/gameclassify"
+            this.$http.get(url).then(result=>{
+                console.log(result)
                 // this.imglist=result.body
+                this.classify=result.body.splice(0,12)
+                console.log(this.classify)
+                
+            })
+        },
+        all(){
+            this.$router.push('/select');
+        },
+        ifys(i){
+            var id=this.classify[i].game_family_id
+            var url="search/classifylist"
+            this.$http.get(url+"?game_family_id="+id+"&pno="+this.pno).then(result=>{
                 console.log(result.body)
             })
         }
@@ -82,11 +84,14 @@
     }
     .hot-game>li>img{
         width:100%;
+        height:70%;
     }
     .hot-game>li>span{
         display: inline-block;
         width:100%;
         text-align:center;
-        font-size:.7rem;
+        font-size:.7rem; 
+        overflow: hidden;
+        white-space: nowrap;
     }
 </style>

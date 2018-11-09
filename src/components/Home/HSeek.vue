@@ -66,7 +66,7 @@
         padding-top:.4rem;
     }
     .hseek>div>span>img{
-        width:50%;
+        max-width:1.3rem;
         float:left;
     }
     .hseek>div>input[type='text']::-webkit-input-placeholder{

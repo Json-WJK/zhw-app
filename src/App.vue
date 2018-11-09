@@ -22,6 +22,8 @@
       background-color: #f0f0f0;
       max-width: 768px;
       font-size:17px;
+      font-family: sans-serif;
+      margin:0 auto;
    }
       /*公共样式*/
    p,h1,h2,h3,h4,h5,h6,body,ul,ol,dl,pre{
@@ -41,5 +43,9 @@
    /**/
    
    .app-container{
+      
+   }
+   router-view{
+      
    }
 </style>
