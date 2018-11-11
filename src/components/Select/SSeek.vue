@@ -3,15 +3,33 @@
         <div class="sseek">
             <span>租号大厅</span>
             <div>
-                <input type="text" placeholder="请输入关键字">
-                <span><img src="http://127.0.0.1:1997/app/sousuo.png" alt=""></span>
+                <input type="text" placeholder="请输入关键字" v-model="seek">
+                <span @click="seeks()"><img src="http://127.0.0.1:1997/app/sousuo.png" alt=""></span>
             </div>
         </div>
     </div>
 </template>
 <script>
-    
+export default {
+    data(){
+        return{
+            seek:"",
+            pno:0
+        }
+    },
+    methods:{
+        seeks(){
+            if(this.seek!=""){//搜索请求
+                var url="search/seek"
+                this.$http.get(url+"?kwords="+this.seek+"&pno="+this.pno).then(result=>{
+                    this.$store.state.seek_r=result.body.products
+                })
+            }
+        }
+    }
+}
 </script>
+
 <style>
     .sseeks{
         height:3rem;
@@ -29,7 +47,7 @@
         background:#fff;
     }
     .sseek>span{
-        width:20%;
+        width:25%;
         height: 1.5rem;
         line-height: 1.5rem;
         text-align: left;
@@ -38,7 +56,7 @@
     }
     .sseek>div{
         display:flex;
-        width:80%;
+        width:75%;
         height: 2rem;
     }
     .sseek>div>input[type='text']{

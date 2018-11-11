@@ -21,7 +21,6 @@
     </div>
 </template>
 <script>
-import qs from 'qs'
     export default{
         data(){
             return{
@@ -35,7 +34,11 @@ import qs from 'qs'
                 var upwd=this.upwd;
                 var url="user/login"
                 this.$http.post(url,{uname:uname,upwd:upwd},{emulateJSON:true}).then(result=>{
-                    if(result.body.ok==1) this.$router.push('/user');
+                    if(result.body.ok==1){
+                        this.$store.commit("islg",1)
+                        this.$store.commit("r_uname",result.body.uname)
+                        this.$router.push('/user');
+                    } 
                 })
             }
         }

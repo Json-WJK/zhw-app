@@ -1,7 +1,6 @@
 <template>
     <div class="select">
-        <sseek></sseek>
-        <results></results>
+        <results :game_family_id="this.game_family_id"></results>
     </div>
 </template>
 <script>
@@ -10,13 +9,20 @@
     export default{
         data(){
             return{
-
+                game_family_id:this.$route.query.game_family_id
             }
         },
         components:{
             "sseek":sseek,
             "results":results,
-        }
+        },
+        methods:{
+            
+        },
+        created(){
+            
+        },
+        
     }
 </script>
 <style>

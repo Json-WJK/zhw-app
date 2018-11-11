@@ -6,7 +6,7 @@
             <a href="" @click.prevent="all()">全部游戏</a>
         </div>
         <ul class="hot-game">
-            <li v-for="(ify,i) in classify" :key="i" @click="ifys(i)">
+            <li v-for="(ify,i) in classify" :key="i" @click="ifys(ify.game_family_id)">
                 <img :src="ify.classify_app" alt=""><span>{{ify.game_names}}</span>
             </li>
         </ul>
@@ -17,29 +17,26 @@
      data(){
        return {
            classify:[],
-           pno:1
+           pno:0,
+           tpify:[]
            }
      },
     methods:{
         getify(){
             var url="search/gameclassify"
             this.$http.get(url).then(result=>{
-                console.log(result)
                 // this.imglist=result.body
-                this.classify=result.body.splice(0,12)
-                console.log(this.classify)
-                
+                this.classify=result.body.splice(0,12)       
             })
         },
         all(){
             this.$router.push('/select');
         },
-        ifys(i){
-            var id=this.classify[i].game_family_id
-            var url="search/classifylist"
-            this.$http.get(url+"?game_family_id="+id+"&pno="+this.pno).then(result=>{
-                console.log(result.body)
-            })
+        ifys(id){//查看某一类游戏
+        //跳转前清空vueX
+            this.$store.state.seek="",
+            this.$store.state.seek_r=undefined,
+            this.$router.push({path:"/select",query:{game_family_id:id}})
         }
     },
     created(){

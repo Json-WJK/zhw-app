@@ -2,13 +2,26 @@
     <div class="hseek">
         <span><a href="">登录</a></span>
         <div>
-            <input type="text" placeholder="请输入关键字">
-            <span><img src="http://127.0.0.1:1997/app/sousuo.png" alt=""></span>
+            <input type="text" placeholder="请输入关键字" v-model="hseek">
+            <span @click="hseeks()"><img src="http://127.0.0.1:1997/app/sousuo.png" alt=""></span>
         </div>
     </div>
 </template>
 <script>
-    
+    export default{
+        data(){
+            return{
+                hseek:""
+            }
+        },
+        methods:{
+            hseeks(){
+                if(this.hseek!="") this.$store.state.seek=this.hseek
+                    // console.log(this.$store.state.seek)
+                this.$router.push("/select")
+            }
+        }
+    }
 </script>
 <style>
     .hseek{

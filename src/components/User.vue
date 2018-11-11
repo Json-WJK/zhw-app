@@ -7,7 +7,10 @@
         </div>
         <div>
             <div class="user_name">
-                <img src="http://127.0.0.1:1997/app/default1.png" alt="" class="user_portrait"><br>wjkwang<br>  
+                <img src="http://127.0.0.1:1997/app/default1.png" alt="" class="user_portrait">
+                <br>
+                    {{data.uname}}
+                <br>  
                 <img :src="ximgs" alt="">
                 <img :src="ximgs" alt="">
                 <img :src="ximgs" alt="">
@@ -17,15 +20,15 @@
             <div class="u_sx"></div>
             <div class="moneys">
                 <div class="money">
-                    <div><span>1.33</span><br><span>可用余额</span></div>
+                    <div><span>￥{{data.balance}}</span><br><span>可用余额</span></div>
                     <div class="u_sx"></div>
-                    <div><span>8.00</span><br><span>冻结资金</span></div>
+                    <div><span>￥{{data.freeze}}</span><br><span>冻结资金</span></div>
                 </div>
                 <button class="up_money">充值</button>
             </div>
         </div>
         <div>
-            <div class="u_lists" v-for="ify in classify">
+            <div class="u_lists" v-for="(ify,i) in classify" :key="i" @click="users(i)">
                 <img :src="ify.img" alt="">
                 <span>{{ify.text}}</span>
                 <span></span>
@@ -38,6 +41,7 @@
     export default{
         data(){
             return{
+                data:[],
                 ximgs:"http://127.0.0.1:1997/app/icon_star1.png",
                 classify:[
                     {
@@ -69,9 +73,19 @@
             }
         },
         methods:{
-            user(){
-                // var 
+            users(i){//根据点击跳转
+                if(i==0) this.$router.push("/user/rent")   
+            },
+            user_data(){
+                var url="user/data";
+                var uname=this.$store.state.uname
+                this.$http.post(url,{uname}).then(reslut=>{
+                    this.data=reslut.body[0]
+                })
             }
+        },
+        created(){
+            this.user_data()
         }
     }
 </script>
@@ -116,6 +130,7 @@
     .user>div:nth-child(2){
         display:flex;
         justify-content:space-around;
+        padding-top:1rem;
     }
      /*头像昵称*/
     .user .user_name{

@@ -24,6 +24,7 @@
       font-size:17px;
       font-family: sans-serif;
       margin:0 auto;
+      color:#3d4145;
    }
       /*公共样式*/
    p,h1,h2,h3,h4,h5,h6,body,ul,ol,dl,pre{
