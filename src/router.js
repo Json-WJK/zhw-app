@@ -8,6 +8,7 @@ import download from "./components/Download/Download.vue"
 import login from "./components/Login.vue"
 import user from "./components/User.vue"
 import rent from "./components/User/Rent.vue"
+import collect from "./components/User/Collect.vue"
 Vue.use(Router)
 
 export default new Router({
@@ -21,5 +22,6 @@ export default new Router({
     {path:'/login',component:login},
     {path:'/user',component:user},
     {path:'/user/rent',component:rent},
+    {path:'/user/collect',component:collect},
   ]
 })

@@ -74,7 +74,8 @@
         },
         methods:{
             users(i){//根据点击跳转
-                if(i==0) this.$router.push("/user/rent")   
+                if(i==0) this.$router.push("/user/rent")
+                if(i==1) this.$router.push("/user/collect")    
             },
             user_data(){
                 var url="user/data";

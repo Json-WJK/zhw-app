@@ -1,8 +1,8 @@
 <template>
     <div class="hseek">
-        <span><a href="">登录</a></span>
+        <span @click="islg()"><a>{{$store.state.islg}}</a></span>
         <div>
-            <input type="text" placeholder="请输入关键字" v-model="hseek">
+            <input @keyup.enter="hseeks()" type="text" placeholder="请输入关键字" v-model="hseek">
             <span @click="hseeks()"><img src="http://127.0.0.1:1997/app/sousuo.png" alt=""></span>
         </div>
     </div>
@@ -11,14 +11,27 @@
     export default{
         data(){
             return{
-                hseek:""
+                hseek:"",
             }
         },
         methods:{
             hseeks(){
-                if(this.hseek!="") this.$store.state.seek=this.hseek
-                    // console.log(this.$store.state.seek)
-                this.$router.push("/select")
+                if(this.hseek!=""){
+                    //将input值存在vueX中 供seek使用
+                    this.$store.state.seek=this.hseek
+                    this.$store.state.f_img=2
+                        // console.log(this.$store.state.seek)
+                    this.$router.push("/select")
+                }
+            },
+            islg(){
+                if(this.$store.state.islg=="注销"){
+                    this.$store.state.uname=""
+                    this.$store.state.islg="登录"
+                    this.$store.state.islogin=0
+                }
+                    this.$store.state.f_img=4
+                    this.$router.push("/login")
             }
         }
     }

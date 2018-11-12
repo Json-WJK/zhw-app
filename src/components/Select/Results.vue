@@ -9,8 +9,13 @@
                 </div>
             </div>
         </div>
-        <div class="results">
-            <a class="items" v-for="list in lists" @click="details(list.game_id,list.game_family_id)" :key="list.id">
+        <div 
+            class="results"
+            v-infinite-scroll="loadMore"
+            infinite-scroll-disabled="loading"
+            infinite-scroll-distance="10"
+        >
+            <a class="items" v-for="list in lists" @click="details(list.game_id,list.game_family_id)" :key="list.game_id">
                 <div><img :src="list.game_overall_img" alt=""></div>
                 <div>
                     <h1>{{list.game_describe}}</h1>
@@ -35,85 +40,115 @@
                     </div>
                 </div>
             </a>
+            <div class="upload">{{upload}}.</div>
         </div>
     </div>
 </template>
 <script>
 import {Toast} from "mint-ui"
-import { Indicator } from 'mint-ui';
+import {Indicator} from 'mint-ui';
     export default{
         data(){
             return{
                 lists:[],
+                listall:[],
                 seek:"",
                 pno:0,
-                isseek:false,
+                isseek:false,//是否为搜索跳转
+                loading:false,//无限加载组件属性
+                isall:false,//判定是否加载完全
+                upload:"正在加载...",//判断是否为底部
             } 
         },
         methods:{
-            all(){
-                setTimeout(() => {
-                    if(this.$store.state.seek_r==undefined){//默认显示
-                    if(this.isseek==true){//搜索提示
-                        Toast('未能找到该商品信息')
-                        this.isseek=false
-                    } 
-                    var url="search/classifylist"
-                    this.$http.get(url+"?pno="+this.pno+"&game_family_id="+this.game_family_id).then(result=>{
-                        if(result.body.products.length==0){//如果没有显示默认
-                                var url="search/gamelist";
-                                this.$http.get(url+"?pno="+this.pno).then(result=>{
-                                    this.lists=result.body.products
-                                })
-                        }else{//显示搜索结果
-                            this.lists=result.body.products
-                        }  
-                        })
-                //搜索结果
-                }else if(this.$store.state.seek_r.length>0){
-                    this.lists=this.$store.state.seek_r
-                }
-                }, 300);
-                
+            all(){//is  seek最终执行函数
+                setTimeout(() => {//等待  玩命加载中...   提示消失
+                    if(this.$store.state.seek_r==undefined){//如果vueX中没有搜索返回结果或没查找到该类型账号
+                        if(this.isseek==true){//判定为搜索跳转
+                            Toast('未能找到该商品信息')
+                            this.isseek=false //更改显示方式为非搜索跳转
+                        }
+                        //执行分类跳转
+                        var url="search/classifylist"
+                        this.$http.get(url+"?pno="+this.pno+"&game_family_id="+this.game_family_id).then(result=>{
+                            if(result.body.products.length==0){//如果没有显示默认
+                                    var url="search/gamelist";
+                                    this.$http.get(url+"?pno="+this.pno).then(result=>{
+                                        this.lists=result.body.products.slice(0,10)
+                                        this.listall=result.body.products
+                                    })
+                            }else{//如果有该类型账号
+                                this.lists=result.body.products.slice(0,10)
+                                this.listall=result.body.products
+                            }  
+                            })
+                 //搜索结果 如果vueX中有搜索返回结果
+                    }else if(this.$store.state.seek_r.length>0){
+                        this.lists=this.$store.state.seek_r.slice(0,10)//只显示10条数据
+                        this.listall=this.$store.state.seek_r
+                    }
+                }, 300);    
             },
-            getify() {
-                // this.tpify = this.$route.params.tpify
-                // console.log(this.$route.params.tpify)
-                },
-            details(id,fid){
+            details(id,fid){//跳转详情页并传参
                 this.$router.push({path:"/select/details",query:{game_id:id,game_family_id:fid}})
             },
-            seeks(){
+            seeks(){//搜索 页面加载完成默认执行一次
                 Indicator.open('玩命加载中...');
                 setTimeout(() => {
                     Indicator.close();
                     if(this.seek!=""){//搜索请求
-                    this.isseek=true;
+                    this.isseek=true;//更改isseek   显示模式为：搜索
                     var url="search/seek"
                     this.$http.get(url+"?kwords="+this.seek+"&pno="+this.pno).then(result=>{
-                        this.$store.state.seek_r=result.body.products
+                        this.$store.state.seek_r=result.body.products//将结果赋值到vueX对象中
                         this.all()
                     })
                     }
                 }, 500);
                
             },
+            loadMore() {//下滑加载更多
+                if(this.isall==true) return
+                this.loading = true;
+                setTimeout(() => {
+                    for (let i = 1; i <= 5; i++) {
+                        let last = this.listall[this.lists.length];
+                        if(last==undefined){
+                            Toast({
+                                message: '好像没有了哎！',
+                                position: 'bottom',
+                                duration: 1000
+                            });
+                            this.isall=true
+                            this.upload="--------------我也是有底线的--------------"
+                            break
+                        }
+                        this.lists.push(last);
+                    }
+                    this.loading = false;
+                }, 2000);
+            }
         },
         created(){
-            this.seek=this.$store.state.seek
+            this.seek=this.$store.state.seek//默认等于home搜索框的seek
             this.all()
-            this.getify()
             this.seeks() 
         },
-        props:["game_family_id"]
+        props:["game_family_id"]//接收父组件传递的id
     }
    
 </script>
 <style>
     .results{
-        
+        margin-bottom:3rem;
     }
-
+    /*底部正在加载*/
+    .results .upload{
+        text-align:center;
+        background:#eee;
+        color:#aaa;
+        font-size:.8rem;
+    }
     /*搜索框*/
     .sseeks{
         height:3rem;

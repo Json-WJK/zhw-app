@@ -1,10 +1,10 @@
 <template>
     <div class="footer">
         <div>
-            <div @click="f_home()"><img :src="img.img1==true?'http://127.0.0.1:1997/app/index_1.png':'http://127.0.0.1:1997/app/index_0.png'" alt=""><span>首页</span></div>
-            <div @click="f_select()"><img :src="img.img2==true?'http://127.0.0.1:1997/app/lease_1.png':'http://127.0.0.1:1997/app/lease_0.png'" alt=""><span>租号</span></div>
+            <div @click="f_home()"><img :src="f_img==1?'http://127.0.0.1:1997/app/index_1.png':'http://127.0.0.1:1997/app/index_0.png'" alt=""><span>首页</span></div>
+            <div @click="f_select()"><img :src="f_img==2?'http://127.0.0.1:1997/app/lease_1.png':'http://127.0.0.1:1997/app/lease_0.png'" alt=""><span>租号</span></div>
             <div @click="f_d_app()"><img :src="'http://127.0.0.1:1997/app/app_0.png'" alt=""><span>App</span></div>
-            <div @click="f_login()"><img :src="img.img4==true?'http://127.0.0.1:1997/app/my_1.png':'http://127.0.0.1:1997/app/my_0.png'" alt=""><span>我的</span></div>  
+            <div @click="f_login()"><img :src="f_img==4?'http://127.0.0.1:1997/app/my_1.png':'http://127.0.0.1:1997/app/my_0.png'" alt=""><span>我的</span></div>  
         </div>
     </div>
 </template>
@@ -12,33 +12,28 @@
     export default{
         data(){
             return{
-                img:{
-                    img1:true,
-                    img2:false,
-                    img3:false,
-                    img4:false
-                },
+                    f_img:this.$store.state.f_img,
             }
         },
         methods:{
             f_home(){
-                this.img_cut()
-                this.img.img1=true;
+                this.$store.state.f_img=1
+                this.v_img()
                 this.$router.push({path:'/home'});
             },
             f_select(){
-                this.img_cut()
-                this.img.img2=true;
+                this.$store.state.f_img=2
+                this.v_img()
                 this.$router.push({path:'/select'});
             },
             f_d_app(){
-                this.img_cut()
-                this.img.img1=true;
+                this.$store.state.f_img=1
+                this.v_img()
                 this.$router.push({path:'/d_app'});
             },
             f_login(){
-                this.img_cut()
-                this.img.img4=true;
+                this.$store.state.f_img=4
+                this.v_img()
                 var url="user/islogin"
                 this.$http.get(url).then(result=>{
                     // this.imglist=result.body   
@@ -54,12 +49,11 @@
                     }
                 })
             },
-            img_cut(){
-                this.img.img1=false;
-                this.img.img2=false;
-                this.img.img3=false;
-                this.img.img4=false;
+            v_img(){
+                this.f_img=this.$store.state.f_img
             }
+        },
+        created(){
         }
     }
 </script>

@@ -36,9 +36,14 @@
                 this.$http.post(url,{uname:uname,upwd:upwd},{emulateJSON:true}).then(result=>{
                     if(result.body.ok==1){
                         this.$store.commit("islg",1)
+                        this.$store.state.islg="注销"
                         this.$store.commit("r_uname",result.body.uname)
                         this.$router.push('/user');
                     } 
+                })
+                var url="user/islogin"
+                this.$http.get(url).then(result=>{
+                    console.log(result.body)
                 })
             }
         }

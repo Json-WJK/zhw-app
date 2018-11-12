@@ -53,6 +53,8 @@ var store=new Vuex.Store({
       uname:"",
       seek:"",
       seek_r:undefined,
+      islg:"登录",
+      f_img:1
     },
     mutations:{
       islg(state,is){
@@ -74,8 +76,10 @@ var store=new Vuex.Store({
 })
 
 Vue.http.options.root = "http://127.0.0.1:1997/"
+// Vue.http.options.withCredentials = true;
 Vue.http.options.emulateHTTP=true;
 Vue.http.options.emulateJSON=true;
+
 new Vue({
   router,
   store,

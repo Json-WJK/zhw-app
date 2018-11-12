@@ -9,7 +9,7 @@
     export default{
         data(){
             return{
-                game_family_id:this.$route.query.game_family_id
+                game_family_id:this.$route.query.game_family_id//获取hot传的id
             }
         },
         components:{

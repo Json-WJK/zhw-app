@@ -9,7 +9,7 @@
             <span @click="ify_cuts(2)" :class='ify_cut==2?"bg_cut":""'>正常</span>
             <span @click="ify_cuts(3)" :class='ify_cut==3?"bg_cut":""'>预约</span>
             <span @click="ify_cuts(4)" :class='ify_cut==4?"bg_cut":""'>投诉</span>
-            <span @click="ify_cuts(5)" :class='ify_cut==5?"bg_cut":""'>完成</span>
+            <span @click="ify_cuts(5)" :class='ify_cut==5?"bg_cut":""'>记录</span>
             <span @click="ify_cuts(6)" :class='ify_cut==6?"bg_cut":""'>撤单</span>  
         </div>
         <div class="divs" :class="ify_cut==1?'ify_block':''">
@@ -22,7 +22,7 @@
                             <!-- <span>{{list.game_starting}}小时起租</span>
                             <span>免押金</span> -->
                         </p>
-                        <span>角色名：{{name.game_name}}</span>
+                        <span>角色名：{{name[i].game_name}}</span>
                         <div>
                             <span>绝地求生</span>
                             <span>全区</span>
@@ -100,7 +100,7 @@ export default {
         return{
             lists:[],
             duration:"",
-            name:"",
+            name:[],
             ify_cut:1,
             lists_over:[],
             name_over:[],
@@ -108,12 +108,12 @@ export default {
     },
     methods:{//正在租用的账号
         rent(){
-            var uname=this.$store.state.uname
+            var uname=this.$store.state.uname//通过vuex中的uname进行查询
             var url="user/lease"
             this.$http.post(url,{uname}).then(result=>{
                 this.lists=result.body.account
                 this.duration=result.body.duration[0]
-                this.name=result.body.name[0]
+                this.name=result.body.name
                 // console.log(this.lists)
             })
             //租用历史记录
@@ -184,7 +184,7 @@ export default {
         height:2rem;
         border-bottom:2px solid #eee;
     }
-    .bg_cut{
+    .rent .bg_cut{
         border-bottom:2px solid #ff782e !important;
         color:#ffca00;
     }
@@ -307,7 +307,7 @@ export default {
     /*控制显示隐藏*/
     .ify_block{
         display:block !important;
-        padding-bottom:3rem !important;
+        margin-bottom:3rem !important;
     }
     .rent>.divs{
         display: none;
