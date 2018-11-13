@@ -67,7 +67,7 @@ import { Indicator } from 'mint-ui';
         data(){
             return{
                 game_id:this.$route.query.game_id,
-                detail:[],
+                detail:[{details_name:''}],
                 img:{},
                 cutn:1,//样式切换
                 hire:0,//最低租号时长

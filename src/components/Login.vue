@@ -38,6 +38,7 @@
                         this.$store.commit("islg",1)
                         this.$store.state.islg="注销"
                         this.$store.commit("r_uname",result.body.uname)
+                        this.$store.state.f_img=4
                         this.$router.push('/user');
                     } 
                 })
@@ -54,6 +55,7 @@
         background: url("http://127.0.0.1:1997/app/bg.png") no-repeat;
         background-size: cover;
         padding-top:1.5rem;
+        margin-bottom:3.5rem;
     }
     .login>img{
         display:block;

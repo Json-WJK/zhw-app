@@ -9,6 +9,7 @@ import login from "./components/Login.vue"
 import user from "./components/User.vue"
 import rent from "./components/User/Rent.vue"
 import collect from "./components/User/Collect.vue"
+import pay from "./components/User/Pay.vue"
 Vue.use(Router)
 
 export default new Router({
@@ -23,5 +24,6 @@ export default new Router({
     {path:'/user',component:user},
     {path:'/user/rent',component:rent},
     {path:'/user/collect',component:collect},
+    {path:'/user/pay',component:pay},
   ]
 })

@@ -15,7 +15,7 @@
     export default{
         data(){
             return{
-
+                
             }
         },
         methods:{
@@ -34,6 +34,7 @@
 <style>
     .download{
         width:100%;
+        max-width:768px;
         background: #fff;
         z-index: 999;
         position:fixed;

@@ -13,10 +13,7 @@
         </mt-swipe>
         <div class="notice">
             <img src="http://localhost:1997/app/icon_horn.png" alt="">
-            <span>最新公告：</span>
-            <div>
-                <a href="notices">游戏活动助手上线</a>
-            </div>
+            <span>最新公告：<a href="notices">游戏活动助手上线</a></span>
             <a href="">更多>></a>
         </div>
     </div>
@@ -51,9 +48,8 @@
         width:100%;
     }
     .notice{
-        display: flex;
         font-size:0.6rem;
-        padding:.5rem 0 .5rem 1rem;
+        padding:.5rem .5rem .5rem 1rem;
         box-sizing: border-box;
         background:#fff;
         margin-top:.7rem;
@@ -65,13 +61,10 @@
        margin-right:.2rem;
     }
     .notice>span{
+        width:20%;
        font-weight: 600;
     }
-    /*轮播消息*/
-    .notice>div{
-       width:65%;
-    }
     .notice>a{
-        
+        float:right;
     }
 </style>

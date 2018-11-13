@@ -40,13 +40,16 @@ export default {
         }
     },
     methods:{
-        collect(){
+        collect(){/*收藏 */
             var uname=this.$store.state.uname
             var url="user/enshrine"
             this.$http.post(url,{uname}).then(result=>{
                 this.lists=result.body.account
                 this.name=result.body.name
             })
+        },
+        retreat(){//点击返回
+            this.$router.push("/user")
         }
     },
     created(){

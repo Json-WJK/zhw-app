@@ -31,10 +31,10 @@ Vue.filter("datetimeFilter",function(val){
 
 
 //-引入指定组件
-
-import {Swipe,SwipeItem,InfiniteScroll} from "mint-ui";//-注册当前项目中 <mt-header> 
+import {Swipe,SwipeItem,InfiniteScroll,Popup} from "mint-ui";//-注册当前项目中 <mt-header> 
 Vue.component(Swipe.name,Swipe);
 Vue.component(SwipeItem.name,SwipeItem);
+Vue.component(Popup.name, Popup);
 Vue.use(InfiniteScroll);
 
 

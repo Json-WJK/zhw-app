@@ -24,7 +24,7 @@
                     <div class="u_sx"></div>
                     <div><span>￥{{data.freeze}}</span><br><span>冻结资金</span></div>
                 </div>
-                <button class="up_money">充值</button>
+                <button class="up_money" @click="pay()">充值</button>
             </div>
         </div>
         <div>
@@ -83,6 +83,9 @@
                 this.$http.post(url,{uname}).then(reslut=>{
                     this.data=reslut.body[0]
                 })
+            },
+            pay(){
+                this.$router.push("/user/pay")
             }
         },
         created(){

@@ -99,7 +99,7 @@
 export default {
     data(){
         return{
-            detail:{},
+            detail:{details_name:''},
             img:{},
             game_id:this.$route.query.game_id,
             game_family_id:this.$route.query.game_family_id,
@@ -138,7 +138,6 @@ export default {
         this.details()
         this.imgs()
     },
-
 }
 </script>
 
