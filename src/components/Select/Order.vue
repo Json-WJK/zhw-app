@@ -111,8 +111,17 @@ import { Indicator } from 'mint-ui';
                 var url="user/data";
                 var uname=this.$store.state.uname;     
                 this.$http.post(url,{uname},{emulateJSON:true}).then(result=>{
-                    if(this.isck==false)    MessageBox('提示','请同意租号玩协议')
-                    else if(uname=="")  Toast("请登录后操作")  
+                    if(uname==""){
+                        Toast({
+                            message: '请登录后操作',
+                            position: 'middle',
+                            duration: 1000
+                        });
+                        setTimeout(() => {
+                            this.$router.push("/login")
+                        }, 300);
+                    }
+                    else if(this.isck==false)    MessageBox('提示','请同意租号玩协议')
                     else if(result.body[0].balance<this.prices){
                         MessageBox.prompt('请输入支付密码',{inputType:"password"}).then(({ value, action,}) => {
                             Toast("余额不足")

@@ -32,7 +32,7 @@
                     <div>
                         <div>￥{{list.game_prices}}</div>
                         <div>/小时</div>
-                        <div>×{{duration.duration}}</div>
+                        <div></div>
                         <div>
                             <span>商</span>
                             <span>陪</span>
@@ -73,7 +73,7 @@
                     <div>
                         <div>￥{{list.game_prices}}</div>
                         <div>/小时</div>
-                        <div>×{{duration.duration}}</div>
+                        <div></div>
                         <div>
                             <span>商</span>
                             <span>陪</span>
@@ -114,7 +114,7 @@ export default {
                 this.lists=result.body.account
                 this.duration=result.body.duration[0]
                 this.name=result.body.name
-                // console.log(this.lists)
+                console.log(this.duration)
             })
             //租用历史记录
             var url="user/often"
@@ -264,7 +264,7 @@ export default {
         font-size:.8rem;
     }
     .rent>div>div>.items>div:nth-child(3)>div:nth-child(3){
-        margin-top:.3rem;
+        margin-top:1.5rem;
     }
     .rent>div>div>.items>div:nth-child(3)>div:nth-child(4)>span{
         font-size:.7rem;

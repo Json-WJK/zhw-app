@@ -41,7 +41,7 @@
         <ul class="status">
             <li class="status_a"><span>账号状态</span><span>待租</span></li>
             <li class="status_b"><span>游戏区服</span><span>绝地求生</span><span>全区</span><span>全服</span></li>
-            <li class="status_c"><span>租号条件</span><span>{{detail.hire}}小时起租</span><span>免押金</span></li>
+            <li class="status_c"><span>租号条件</span><span>5小时起租</span><span>免押金</span></li>
             <li class="status_d"><span>可租时段与时长</span><span>0:00-24:00 5-999(小时)</span></li>
             <li class="status_e"><span>上号方式</span><span>上号器上号</span></li>
         </ul>
@@ -84,7 +84,7 @@
             <div></div>
             <div></div>
             <div></div>
-        </div>                                                                                               
+        </div>                                                                                
         <div class="d_footer">
             <div>
                 <img :src="iscollect==true?'http://127.0.0.1:1997/app/sc1.png':'http://127.0.0.1:1997/app/shoucang1.png'" alt=""><br>
@@ -142,15 +142,15 @@ export default {
             if(dateDiff>0){//更改按钮样式 并禁用
                 this.ismay=false;
                 this.ismayC="出租中"
-            }else if(dateDiff<=0){//时间达到到期时间  更改该商品状态为可租
+            }
+            if(dateDiff<=0){//时间达到到期时间  更改该商品状态为可租
                 var url="detail/remove"
-                console.log(this.game_id)
-                this.$http.get(url+"?game_id="+this.game_id).then(result=>{
-                    
+                this.$http.get(url+"&game_id="+this.game_id).then(result=>{
+                    return this.x=0 //x=0  定时器停止调用该函数
                 })
             }
         //更改从数据库调出的时间格式                    
-        },                                                                     
+        },                                                                                             
         imgs(){ /*商品图片 */
             var url="detail/gamegallery";
             this.$http.get(url+"?game_id="+this.game_id).then(result=>{

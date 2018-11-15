@@ -12,7 +12,7 @@
             <div class="upwd"><span></span><input type="password" v-model="upwd" placeholder="请输入密码"></div>
             <button @click="login()">登录</button>
             <div class="u_choice">
-                <span><a href="">快速注册</a></span>
+                <router-link to="/user/register" tag="span"><a>快速注册</a></router-link>
                 <span><a href="">忘记密码</a></span>
             </div>
         </div>
@@ -21,6 +21,8 @@
     </div>
 </template>
 <script>
+import {Toast} from "mint-ui"
+import {Indicator} from "mint-ui"
     export default{
         data(){
             return{
@@ -39,7 +41,17 @@
                         this.$store.state.islg="注销"
                         this.$store.commit("r_uname",result.body.uname)
                         this.$store.state.f_img=4
-                        this.$router.push('/user');
+                        Indicator.open('登录中...')
+                        setTimeout(() => {
+                            Indicator.close();
+                            this.$router.go(-1);
+                            Toast({
+                                message: '登录成功',
+                                position: 'middle',
+                                duration: 1000
+                            });
+                        },1000);
+                        
                     } 
                 })
                 var url="user/islogin"
