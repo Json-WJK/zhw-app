@@ -31,11 +31,11 @@
         </a>
         <!-- 账号租金情况 -->
         <ul class="price">
-            <li><span>时租</span><span>1.2元</span></li>
-            <li><span>日租</span><span>12.2元</span></li>
-            <li><span>包夜</span><span>6.2元</span></li>
-            <li><span>10小时</span><span>10.2元</span></li>
-            <li><span>周租</span><span>40.2元</span></li>
+            <li><span>时租</span><span>{{detail.hour}}元</span></li>
+            <li><span>日租</span><span>{{detail.hours}}元</span></li>
+            <li><span>包夜</span><span>{{detail.night}}元</span></li>
+            <li><span>10小时</span><span>{{detail.morning}}元</span></li>
+            <li><span>周租</span><span>{{detail.week}}元</span></li>
         </ul>
         <!-- 账号状态 -->
         <ul class="status">
@@ -77,25 +77,27 @@
         </div>
         <div class="d_describe">
             <div>账号描述</div>
-            <div>嘻嘻嘻嘻嘻嘻嘻嘻寻寻寻寻寻寻寻寻寻寻寻寻寻寻寻</div>
+            <div>【注意事项2】登号时遇到密码错误或账号冻结的情况，绝对不是账号密码错误，可能是其他原因或操作不当导致的，可以联系平台客服解决，请别轻易投诉撤单。 </div>
         </div>
-        <div>
+        <div class="discuss">
             <div></div>
             <div></div>
             <div></div>
             <div></div>
-        </div>
+        </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
         <div class="d_footer">
             <div>
-                <img src="http://127.0.0.1:1997/app/shoucang1.png" alt=""><br>
-                <span>收藏</span>
+                <img :src="iscollect==true?'http://127.0.0.1:1997/app/sc1.png':'http://127.0.0.1:1997/app/shoucang1.png'" alt=""><br>
+                <span @click="collect()">收藏</span>
             </div>
-            <router-link to="" tag="div">立即预约</router-link>
+            <router-link to="" tag="div">分享得积分</router-link>
             <router-link :to="ismay==true?'/select/order?game_id='+this.game_id:''" tag="div" :style="ismay==true?'':'background:#aaa'">{{ismayC}}</router-link>
         </div>
     </div>
 </template>
 <script>
+import {Toast} from "mint-ui"
+import { MessageBox } from 'mint-ui';
 export default {
     data(){
         return{
@@ -104,24 +106,33 @@ export default {
             game_id:this.$route.query.game_id,
             game_family_id:this.$route.query.game_family_id,
             ismay:true,
-            ismayC:"我要租"
+            ismayC:"我要租",
+            iscollect:false,
         }
     },
     methods:{
         details(){
-            var url="detail/details";
             /*商品详情 */
+            var url="detail/details";
             this.$http.get(url+"?game_id="+this.game_id).then(result=>{
                 this.detail=result.body[0]
+                console.log(this.detail)
             })
-            var url="detail/lease"
             /*是否可租 */
+            var url="detail/lease"
             this.$http.get(url+"?game_id="+this.game_id).then(result=>{
                 if(result.body==0) return
                 else{
                     this.ismay=false;
                     this.ismayC="出租中"
                 }
+            })
+            /*是否被该用户收藏 */
+            var url="detail/isenshrines"
+            var game_id=this.game_id
+            var uname=this.$store.state.uname
+            this.$http.post(url,{game_id,uname}).then(result=>{
+                if(result.body==1) this.iscollect=true
             })
            },
         imgs(){ /*商品图片 */
@@ -132,6 +143,30 @@ export default {
         },
         retreat(id){
             this.$router.push({path:"/select",query:{game_family_id:id}})
+        },
+        collect(){
+            if(this.$store.state.uname==""){
+                Toast("请先登录后操作")
+                setTimeout(() => {
+                    this.$router.push("/login")
+                }, 300);
+                return
+            }
+            if(this.iscollect){
+                Toast({
+                    message: '账号已收藏',
+                    position: 'bottom',
+                    duration: 1500
+                });
+                return
+            }
+            var url="user/enshrines"
+            var game_id=this.game_id
+            var uname=this.$store.state.uname
+            this.$http.post(url,{game_id,uname}).then(result=>{
+                if(result.body) MessageBox('提示', '收藏成功');
+                this.details()
+            })
         }
     },
     created(){
@@ -399,7 +434,9 @@ export default {
     /*账号描述*/
     .d_describe{
         background:#fff;
-        font-size:.8rem;
+        font-size:.7rem;
+        padding:0 1rem;
+        color:#999;
     }
 
     /*底部按钮*/

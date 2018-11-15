@@ -29,8 +29,8 @@
         <ul class="price">
             <li @click="cut(1)"><span :class="cutn==1?'bg_cut':''">时租</span><span :class="cutn==1?'bg_cut':''">{{detail[0].hour}}元</span></li>
             <li @click="cut(2)"><span :class="cutn==2?'bg_cut':''">日租</span><span :class="cutn==2?'bg_cut':''">{{detail[0].hours}}元</span></li>
-            <li @click="cut(3)"><span :class="cutn==3?'bg_cut':''">包夜</span><span :class="cutn==3?'bg_cut':''">{{detail[0].morning}}元</span></li>
-            <li @click="cut(4)"><span :class="cutn==4?'bg_cut':''">10小时</span><span :class="cutn==4?'bg_cut':''">{{detail[0].night}}元</span></li>
+            <li @click="cut(3)"><span :class="cutn==3?'bg_cut':''">包夜</span><span :class="cutn==3?'bg_cut':''">{{detail[0].night}}元</span></li>
+            <li @click="cut(4)"><span :class="cutn==4?'bg_cut':''">10小时</span><span :class="cutn==4?'bg_cut':''">{{detail[0].morning}}元</span></li>
             <li @click="cut(5)"><span :class="cutn==5?'bg_cut':''">周租</span><span :class="cutn==5?'bg_cut':''">{{detail[0].week}}元</span></li>
         </ul>
         <ul class="choice">
@@ -113,8 +113,16 @@ import { Indicator } from 'mint-ui';
                 this.$http.post(url,{uname},{emulateJSON:true}).then(result=>{
                     if(this.isck==false)    MessageBox('提示','请同意租号玩协议')
                     else if(uname=="")  Toast("请登录后操作")  
-                    else if(result.body[0].balance<this.prices) Toast("余额不足")
-                    else if(result.body[0].balance>=this.prices) this.game_add()
+                    else if(result.body[0].balance<this.prices){
+                        MessageBox.prompt('请输入支付密码',{inputType:"password"}).then(({ value, action,}) => {
+                            Toast("余额不足")
+                        })
+                    }
+                    else if(result.body[0].balance>=this.prices){
+                        MessageBox.prompt('请输入支付密码',{inputType:"password"}).then(({ value, action,}) => {
+                            this.game_add()
+                        })
+                    }
                     else result   
                 })
             },

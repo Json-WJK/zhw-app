@@ -30,12 +30,14 @@
             })
         },
         all(){
+            this.$store.state.f_img=2;
             this.$router.push('/select');
         },
         ifys(id){//查看某一类游戏
         //跳转前清空vueX
-            this.$store.state.seek="",
-            this.$store.state.seek_r=undefined,
+            this.$store.state.seek="";
+            this.$store.state.seek_r=undefined;
+            this.$store.state.f_img=2;
             this.$router.push({path:"/select",query:{game_family_id:id}})
         }
     },

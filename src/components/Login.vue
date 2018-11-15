@@ -44,7 +44,6 @@
                 })
                 var url="user/islogin"
                 this.$http.get(url).then(result=>{
-                    console.log(result.body)
                 })
             }
         }
