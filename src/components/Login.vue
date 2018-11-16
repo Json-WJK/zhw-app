@@ -44,7 +44,7 @@ import {Indicator} from "mint-ui"
                         Indicator.open('登录中...')
                         setTimeout(() => {
                             Indicator.close();
-                            this.$router.go(-1);
+                            this.$router.push("/user");
                             Toast({
                                 message: '登录成功',
                                 position: 'middle',

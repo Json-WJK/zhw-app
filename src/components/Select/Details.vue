@@ -135,10 +135,11 @@ export default {
             
         },
         //更改该账号目前状态
-        timeFn(d1,duration){
+        timeFn(d1,duration){  
             var dateBegin = new Date(d1);
             var dateEnd = new Date();
             var dateDiff = (dateBegin.getTime()+(8+duration)*60*60*1000)-dateEnd.getTime()  ;//时间差的毫秒数
+            console.log(dateDiff)
             if(dateDiff>0){//更改按钮样式 并禁用
                 this.ismay=false;
                 this.ismayC="出租中"

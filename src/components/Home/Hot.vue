@@ -22,7 +22,7 @@
            }
      },
     methods:{
-        getify(){
+        getify(){//请求游戏图片
             var url="search/gameclassify"
             this.$http.get(url).then(result=>{
                 // this.imglist=result.body
