@@ -38,7 +38,12 @@
                 </ul>
             </div>
         </div>
-        <div class="results">
+        <div 
+            class="results"
+            v-infinite-scroll="loadMore"
+            infinite-scroll-disabled="loading"
+            infinite-scroll-distance="10"
+        >
             <a class="items" v-for="list in lists" @click="details(list.game_id,list.game_family_id)" :key="list.game_id">
                 <div><img :src="list.game_overall_img" alt=""></div>
                 <div>
@@ -82,8 +87,8 @@ import {Indicator} from 'mint-ui';
                 li_click:0,//搜索栏下的4大分类
                 li_down:1,//下拉列表
                 isseek:false,//是否为搜索跳转
+                loading:false,//无限加载组件属性
                 isall:false,//判定是否加载完全
-                process:false,
                 upload:"正在加载...",//判断是否为底部
             } 
         },
@@ -136,29 +141,25 @@ import {Indicator} from 'mint-ui';
             },
             loadMore() {//下滑加载更多
                 if(this.isall==true) return
-                if(document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight <= 100){
-                    if(this.process) return //正在执行 则终止
-                    this.process=true//更改状态为正在加载   
-                    setTimeout(() => {
-                        for (var i = 1; i <= 5; i++) {
-                            var last = this.listall[this.lists.length];
-                            if(last==undefined){
-                                Toast({
-                                    message: '好像没有了哎！',
-                                    position: 'bottom',
-                                    duration: 1000
-                                });
-                                this.isall=true
-                                this.upload="--------------我也是有底线的--------------"
-                                break
-                            }
-                            this.lists.push(last);
-                            this.process=false //更改状态为加载完毕
+                this.loading = true;
+                setTimeout(() => {
+                    for (let i = 1; i <= 5; i++) {
+                        let last = this.listall[this.lists.length];
+                        if(last==undefined){
+                            Toast({
+                                message: '好像没有了哎！',
+                                position: 'bottom',
+                                duration: 1000
+                            });
+                            this.isall=true
+                            this.upload="--------------我也是有底线的--------------"
+                            break
                         }
-                    }, 2000);
-                }
+                        this.lists.push(last);
+                    }
+                    this.loading = false;
+                }, 2000);
             },
-
             li_bgs(i){//搜索框下  四大分类
                 if(this.li_click==i){
                     this.li_click=0
@@ -175,11 +176,7 @@ import {Indicator} from 'mint-ui';
             this.all()
             this.seeks() 
         },
-        mounted(){
-            window.addEventListener('scroll',this.loadMore,true)
-        },
-        props:["game_family_id"],//接收父组件传递的id
-        
+        props:["game_family_id"]//接收父组件传递的id
     }
    
 </script>
